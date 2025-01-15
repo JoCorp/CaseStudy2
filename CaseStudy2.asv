@@ -29,14 +29,13 @@ stepsize = 10;
 
 % linear interpolation using matlab function 
 
-x_mlinint = linspace(x(1),x(end), length(x)*stepsize);
-y_mlinint = interp1(x,y,x_mlinint);
+[x_mlinint, y_mlinint] = interp1(x,y,linspace())
 
 figure(2)
-plot(x_mlinint, y_mlinint, '-g', x_olinint, y_olinint, '--b', x,y, '.r', 'MarkerSize', 10)
+plot( x_olinint, y_olinint, '-b', x,y, '.r', 'MarkerSize', 10)
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Linear interpolation')
-legend('interp1', 'own function', 'Original data')
+legend('Linear interpolation', 'Original data')
 xlabel('x')
 ylabel('y')
 

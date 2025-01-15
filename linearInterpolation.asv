@@ -1,0 +1,20 @@
+function [x_olinint, y_olinint] = linearInterpolation(x,y, stepsize)
+
+    % initiation of x_olinit and counter
+
+    x_olinint = linspace(x(1), x(end), (length(x)) * (stepsize));
+    counter = 1;
+
+    % calculation of y_olinit
+
+    for i = 2:1:(length(x)) % this loop runs through the values of data_set_1
+
+        for j = 1:1:stepsize % this loop is used to calculate the new y between y(i) and y(i+1) using Equation(1)
+
+            y_olinint(counter) = y(i) + ((y(i) - y(i)) * ((x_olinint(counter) - x(i)) / (x(i+1) - x(i))));
+            counter = 1 + counter;
+        end
+
+    end
+
+end
