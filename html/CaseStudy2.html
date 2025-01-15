@@ -6,10 +6,10 @@
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
       -->
-<title>main script</title>
+<title>CaseStudy2</title>
 <meta name="generator" content="MATLAB 24.2">
 <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
-<meta name="DC.date" content="2025-01-15">
+<meta name="DC.date" content="2025-01-16">
 <meta name="DC.source" content="CaseStudy2.m">
 <style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
@@ -76,23 +76,95 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </head>
 <body>
 <div class="content">
-<h1>main script</h1>
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#2">Task 1.1.</a>
+</li>
+<li>
+<a href="#3">Task 1.2.</a>
+</li>
+</ul>
+</div>
+<pre class="codeinput">
+<span class="comment">% main script</span>
+
+<span class="comment">% Task 1.</span>
+</pre>
+<h2 id="2">Task 1.1.</h2>
 <pre class="codeinput">clear <span class="string">all</span>
 close <span class="string">all</span>
 clc
 
 <span class="comment">% import data_set_1</span>
 
-DataSet1 = readtable(<span class="string">'data_set_1'</span>)
-</pre>
-<pre class="codeoutput error">Error using readtable (line 517)
-Unable to find or open 'data_set_1'. Check the path and
-filename or file permissions.
+load(<span class="string">'data_set_1.mat'</span>);
 
-Error in CaseStudy2 (line 9)
-DataSet1 = readtable('data_set_1')
-           ^^^^^^^^^^^^^^^^^^^^^^^</pre>
-<p class="footer">
+<span class="comment">% linear interpolation using own function</span>
+
+stepsize1_1 = 10;
+
+[x_olinint, y_olinint] = linearInterpolation(x,y, stepsize1_1);
+
+<span class="comment">% linear interpolation using matlab function</span>
+
+x_mlinint = linspace(x(1),x(end), length(x)*stepsize1_1);
+y_mlinint = interp1(x,y,x_mlinint);
+
+figure(1)
+plot(x_mlinint, y_mlinint, <span class="string">'-g'</span>, x_olinint, y_olinint, <span class="string">'--b'</span>, x,y, <span class="string">'.r'</span>, <span class="string">'MarkerSize'</span>, 10)
+set(gca, <span class="string">'color'</span>, <span class="string">'w'</span>) <span class="comment">% this is only necessary if you're using the dark mode...</span>
+title(<span class="string">'Linear interpolation'</span>)
+legend(<span class="string">'interp1'</span>, <span class="string">'own function'</span>, <span class="string">'Original data'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+</pre>
+<img vspace="5" hspace="5" src="CaseStudy2_01.png" alt=""> <h2 id="3">Task 1.2.</h2>
+<pre class="codeinput">
+<span class="comment">% create test data set tx and ty</span>
+
+tx = [0 1 3];
+ty = [1 3 2];
+
+<span class="comment">% test function with test data</span>
+
+stepsize1_2 = 20;
+
+[x_tpolint, y_tpolint] = polynomialInterpolation(tx, ty, stepsize1_2);
+
+<span class="comment">% plot the results</span>
+
+figure(2)
+plot(x_tpolint, y_tpolint, <span class="string">'-b'</span>,  tx, ty, <span class="string">'.r'</span>, <span class="string">'MarkerSize'</span>, 10)
+set(gca, <span class="string">'color'</span>, <span class="string">'w'</span>) <span class="comment">% this is only necessary if you're using the dark mode...</span>
+title(<span class="string">'Polynomial interpolation'</span>)
+legend(<span class="string">'Lagrange polynomial'</span>, <span class="string">'Test data set'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+
+<span class="comment">% testing with data set 1</span>
+
+<span class="comment">% setting specified limit + 1</span>
+
+xpol = x(1:1:22);
+ypol = y(1:1:22);
+
+[x_opolint, y_opolint] = polynomialInterpolation(xpol, ypol, stepsize1_2);
+
+<span class="comment">% plot the results</span>
+
+figure(3)
+plot(x_opolint, y_opolint, <span class="string">'--b'</span>, xpol, ypol, <span class="string">'.r'</span>, <span class="string">'MarkerSize'</span>, 10)
+set(gca, <span class="string">'color'</span>, <span class="string">'w'</span>) <span class="comment">% this is only necessary if you're using the dark mode...</span>
+title(<span class="string">'Polynomial interpolation'</span>)
+legend(<span class="string">'Lagrange polynomial'</span>, <span class="string">'data set 1'</span>)
+xlim([-2 0])
+ylim([-15 15])
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+</pre>
+<img vspace="5" hspace="5" src="CaseStudy2_02.png" alt=""> <img vspace="5" hspace="5" src="CaseStudy2_03.png" alt=""> <p class="footer">
 <br>
 <a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2024b</a>
 <br>
@@ -100,7 +172,11 @@ DataSet1 = readtable('data_set_1')
 </div>
 <!--
 ##### SOURCE BEGIN #####
-%% main script
+% main script
+
+% Task 1.
+
+%% Task 1.1.
 
 clear all
 close all
@@ -108,7 +184,71 @@ clc
 
 % import data_set_1
 
-DataSet1 = readtable('data_set_1')
+load('data_set_1.mat');
+
+% linear interpolation using own function
+
+stepsize1_1 = 10;
+
+[x_olinint, y_olinint] = linearInterpolation(x,y, stepsize1_1);
+
+% linear interpolation using matlab function 
+
+x_mlinint = linspace(x(1),x(end), length(x)*stepsize1_1);
+y_mlinint = interp1(x,y,x_mlinint);
+
+figure(1)
+plot(x_mlinint, y_mlinint, '-g', x_olinint, y_olinint, 'REPLACE_WITH_DASH_DASHb', x,y, '.r', 'MarkerSize', 10)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Linear interpolation')
+legend('interp1', 'own function', 'Original data')
+xlabel('x')
+ylabel('y')
+
+%% Task 1.2.
+
+% create test data set tx and ty
+
+tx = [0 1 3];
+ty = [1 3 2];
+
+% test function with test data
+
+stepsize1_2 = 20;
+
+[x_tpolint, y_tpolint] = polynomialInterpolation(tx, ty, stepsize1_2);
+
+% plot the results
+
+figure(2)
+plot(x_tpolint, y_tpolint, '-b',  tx, ty, '.r', 'MarkerSize', 10)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Polynomial interpolation')
+legend('Lagrange polynomial', 'Test data set')
+xlabel('x')
+ylabel('y')
+
+% testing with data set 1
+
+% setting specified limit + 1
+
+xpol = x(1:1:22);
+ypol = y(1:1:22);
+
+[x_opolint, y_opolint] = polynomialInterpolation(xpol, ypol, stepsize1_2);
+
+% plot the results
+
+figure(3)
+plot(x_opolint, y_opolint, 'REPLACE_WITH_DASH_DASHb', xpol, ypol, '.r', 'MarkerSize', 10)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Polynomial interpolation')
+legend('Lagrange polynomial', 'data set 1')
+xlim([-2 0])
+ylim([-15 15])
+xlabel('x')
+ylabel('y')
+
 
 
 ##### SOURCE END #####

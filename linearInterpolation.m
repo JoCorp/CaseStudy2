@@ -1,6 +1,6 @@
 function [x_olinint, y_olinint] = linearInterpolation(x,y, stepsize)
 
-    % calculation of x_olinint and y_olinit
+    % calculation of x_olinint and y_olinint
 
     for i = 1:1:(length(x) - 1) % this loop runs through the values of data_set_1
 
