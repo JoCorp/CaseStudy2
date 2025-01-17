@@ -56,26 +56,95 @@ ylabel('y')
 
 % testing with data set 1
 
+% setting specified limit + 1
+
 xpol = x(1:1:22);
 ypol = y(1:1:22);
 
 [x_opolint, y_opolint] = polynomialInterpolation(xpol, ypol, stepsize1_2);
 
-% comparison with matlab own function. This function does not use lagrange
-% polynomial for polynomial interpolation, therefore small differences are
-% fine. I did not find a build-in function using lagrange polynomial
-
-y_mpolint = polyfit(xpol, ypol, 17);
-
 % plot the results
 
 figure(3)
-plot(x_opolint, y_opolint, '--b', xpol, y_mpolint, '-g', xpol, ypol, '.r', 'MarkerSize', 10)
+plot(x_opolint, y_opolint, '--b', xpol, ypol, '.r', 'MarkerSize', 10)
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Polynomial interpolation')
-legend('Lagrange polynomial', 'polyfit', 'data set 1')
+legend('Lagrange polynomial', 'data set 1')
+xlim([-2 0])
 ylim([-15 15])
 xlabel('x')
 ylabel('y')
 
+%% Task 2.1.
 
+clear all
+
+% create test_data_set
+
+tt = [0 1 2 3 4 5];
+tx = [2]
+
+for i = 2:1:length(tt)
+    
+    tx(i) = tx(1)*exp(0.5 * tt(i));
+
+end
+
+% Give time dependent function
+
+sprintf('X(t) = X_0 * e(μ*t) \n \nln(X(t)) = ln(X_0) + μt')
+
+% determine mu in test data set
+
+[mu, cx1 = mu_determination(tt,tx);
+
+% calculate data with determined mu
+
+
+cx = cx1;
+
+for i = 2:1:length(tt)
+    
+    cx(i) = cx(1) * exp(mu * tt(i));
+
+end
+
+% plot the results
+
+figure(4)
+plot(tt, tx, '.b', tt, cx, '-r')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Bacterial growth')
+legend('data set 2')
+xlabel('time')
+ylabel('Bacterial population')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% import data_set_2
+
+load('data_set_2.mat');
+
+% plot the results
+
+figure(4)
+plot(time, bio_r, '.b')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Bacterial growth')
+legend('data set 2')
+xlabel('time')
+ylabel('Bacterial population')

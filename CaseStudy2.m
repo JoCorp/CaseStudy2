@@ -75,4 +75,76 @@ ylim([-15 15])
 xlabel('x')
 ylabel('y')
 
+%% Task 2.1.
 
+clear all
+
+% create test_data_set
+
+tt = [0 1 2 3 4 5];
+tx = [2]
+
+for i = 2:1:length(tt)
+    
+    tx(i) = tx(1)*exp(0.5 * tt(i));
+
+end
+
+% Give time dependent function
+
+sprintf('X(t) = X_0 * e(μ*t) \n \nln(X(t)) = ln(X_0) + μt')
+
+% determine mu in test data set
+
+[mu, cx1] = mu_determination(tt,tx);
+
+% calculate data with determined mu
+
+
+cx = [cx1];
+
+for i = 2:1:length(tt)
+    
+    cx(i) = cx(1) * exp(mu * tt(i));
+
+end
+
+% plot the results
+
+figure(4)
+plot(tt, tx, '.b', tt, cx, '-r', 'MarkerSize', 10)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Growth rate determination')
+legend('test data', 'calculated data points')
+xlabel('time')
+ylabel('Bacterial population')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% import data_set_2
+
+load('data_set_2.mat');
+
+% plot the results
+
+figure(4)
+plot(time, bio_r, '.b')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Bacterial growth')
+legend('data set 2')
+xlabel('time')
+ylabel('Bacterial population')
