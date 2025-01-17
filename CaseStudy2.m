@@ -126,8 +126,6 @@ ylabel('log(Bacterial population)')
 
 %% Task 2.2
 
-clear all
-
 % import data_set_2
 
 load('data_set_2.mat');
