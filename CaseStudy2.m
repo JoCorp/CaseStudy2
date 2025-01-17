@@ -116,14 +116,22 @@ legend('test data', 'calculated data points')
 xlabel('time')
 ylabel('Bacterial population')
 
-%% import data_set_2
+%% Task 2.2
+
+clear all
+
+% import data_set_2
 
 load('data_set_2.mat');
 
+% select exponential growth
+
+[et, ex, hits] = exponential_selector(time, bio_r);
+
 % plot the results
 
-figure(4)
-plot(time, bio_r, '.b')
+figure(5)
+plot(time, bio_r, '.b', et{1}, ex{1}, '-k', et{2}, ex{2}, '-k', et{3}, ex{3}, '-k')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Bacterial growth')
 legend('data set 2')
