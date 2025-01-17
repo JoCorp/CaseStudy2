@@ -1,4 +1,4 @@
-function [et, ex, hits] = exponential_selector(t,x)
+function [et, ex] = exponential_selector(t,x,window,pre,o)
 
     % attempt to linearize potentially exponential data
 
@@ -24,11 +24,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
     % first loop shifts the window
 
-    for z = 0:1:4
+    for z = 0:1:window-1
     
         % outer loop runs through the complete set of μs
 
-        for i = 3+z:5:(length(ln_x) - 2) 
+        for i = ((1 + round(window/2, TieBreaker="tozero"))+z):window:(length(ln_x) - 2) 
 
             % counter reset to 0 after checking each μ
 
@@ -36,7 +36,7 @@ function [et, ex, hits] = exponential_selector(t,x)
             
             % when z is 4 loop has to be stopped when i is length(ln_x) - 6
 
-            if z == 4 & i <= (length(ln_x) - 6)
+            if z == window-1 & i <= (length(ln_x) - window+1)
 
                 break
 
@@ -44,11 +44,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
             % inner loop checks the previous and the next two μs
             
-            for j = -2:1:2 
+            for j = -round(window/2, TieBreaker="tozero"):1:round(window/2, TieBreaker="tozero") 
 
                 if j ~= 0
 
-                    if abs(mu(i + j) - mu(i)) < abs(mu(i) * 0.66) % this allows for 66% deviation
+                    if abs(mu(i + j) - mu(i)) < abs(mu(i) * p) % this allows for p % deviation
 
                         counter = counter + 1;
 
@@ -60,11 +60,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
             % check the amount of data points with approximately the same μ
 
-            if counter >= 2 % this allows for two outliers
+            if counter >= o % this allows for o outliers
         
             % save mu
 
-                for j = -2:1:2 
+                for j = -round(window/2, TieBreaker="tozero"):1:round(window/2, TieBreaker="tozero") 
         
                     hits(hit_counter) = i - j;
                     hit_counter = hit_counter + 1;
@@ -81,16 +81,20 @@ function [et, ex, hits] = exponential_selector(t,x)
 
     hits = unique(sort(hits));
 
-    % select hits
+    % initialize counter, et & ex
 
+    et{1}(1) = t(hits(1));
+    ex{1}(1) = x(hits(1));
     exponential_segments_counter = 1;
-    exponential_entry_counter = 1;
+    exponential_entry_counter = 2;
 
-    for i = 1:1:(length(hits) - 1)
+    % select hits
+    
+    for i = 2:1:(length(hits))
 
         % selects different exponential segments in different cell entries
         
-        if hits(i -1) + 1 ~= (hits(i))
+        if hits(i - 1) + 1 ~= (hits(i))
 
             exponential_segments_counter = exponential_segments_counter + 1;
             exponential_entry_counter = 1;
@@ -102,10 +106,5 @@ function [et, ex, hits] = exponential_selector(t,x)
         exponential_entry_counter = exponential_entry_counter + 1;
 
     end
-
-    % add the last hit
-
-    et{exponential_segments_counter}(end + 1) = t(hits(end));
-    ex{exponential_segments_counter}(end + 1) = x(hits(end));
 
 end

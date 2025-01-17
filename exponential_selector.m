@@ -1,4 +1,4 @@
-function [et, ex, hits] = exponential_selector(t,x)
+function [et, ex] = exponential_selector(t,x,window, precision, allowed_outliers)
 
     % attempt to linearize potentially exponential data
 
@@ -24,11 +24,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
     % first loop shifts the window
 
-    for z = 0:1:4
+    for z = 0:1:window-1
     
         % outer loop runs through the complete set of μs
 
-        for i = 3+z:5:(length(ln_x) - 2) 
+        for i = ((1 + round(window/2, TieBreaker="tozero"))+z):window:(length(ln_x) - 2) 
 
             % counter reset to 0 after checking each μ
 
@@ -36,7 +36,7 @@ function [et, ex, hits] = exponential_selector(t,x)
             
             % when z is 4 loop has to be stopped when i is length(ln_x) - 6
 
-            if z == 4 & i <= (length(ln_x) - 6)
+            if z == window-1 & i <= (length(ln_x) - window+1)
 
                 break
 
@@ -44,11 +44,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
             % inner loop checks the previous and the next two μs
             
-            for j = -2:1:2 
+            for j = -round(window/2, TieBreaker="tozero"):1:round(window/2, TieBreaker="tozero") 
 
                 if j ~= 0
 
-                    if abs(mu(i + j) - mu(i)) < abs(mu(i) * 0.66) % this allows for 66% deviation
+                    if abs(mu(i + j) - mu(i)) < abs(mu(i) * (1 - precision)) % this allows for x % deviation
 
                         counter = counter + 1;
 
@@ -60,11 +60,11 @@ function [et, ex, hits] = exponential_selector(t,x)
 
             % check the amount of data points with approximately the same μ
 
-            if counter >= 2 % this allows for two outliers
+            if counter >= allowed_outliers % this allows for x outliers
         
             % save mu
 
-                for j = -2:1:2 
+                for j = -round(window/2, TieBreaker="tozero"):1:round(window/2, TieBreaker="tozero") 
         
                     hits(hit_counter) = i - j;
                     hit_counter = hit_counter + 1;

@@ -1,4 +1,4 @@
-function [mu, X_0] = mu_determination(t,x)
+function [mu, X_0, ln_x] = mu_determination(t,x)
 
     % linearize exponential data
 
