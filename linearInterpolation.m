@@ -9,9 +9,14 @@ function [x_olinint, y_olinint] = linearInterpolation(x,y, stepsize)
             x_olinint((i*10) - (stepsize - (j + 1))) = ((x(i+1)-x(i))/stepsize) * j + x(i);
             y_olinint((i*10) - (stepsize - (j + 1))) = y(i) + ...
                 ((y(i + 1) - y(i)) * ((x_olinint((i*10) - (stepsize - (j + 1))) - x(i)) / (x(i+1) - x(i))));
-            
+
         end
 
     end
+
+    % add the last point directly from the provided data
+
+    x_olinint(length(x_olinint) + 1) = x(end);
+    y_olinint(length(y_olinint) + 1) = y(end);
 
 end

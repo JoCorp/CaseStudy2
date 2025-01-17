@@ -1,20 +1,22 @@
-function [x_opolint, y_opolint] = polynomialInterpolation(x, y, stepsize)
+function [x_polint, y_polint] = polynomialInterpolation(x, y, stepsize)
 
     % initialize counter
 
     counter = 1;
 
+    % calculation of x_polint and y_polint
+
     for m = 1:1:(length(x) - 1)
 
         for n = 0:1:(stepsize - 1)  % innerloop for interpolation points
         
-            % calculation of x_opolint 
+            % calculation of x_polint 
         
-            x_opolint(counter) = ((x(m+1)-x(m))/stepsize) * n + x(m);
+            x_polint(counter) = ((x(m+1)-x(m))/stepsize) * n + x(m);
 
-            % initialization of y_opolint(counter)
+            % initialization of y_polint(counter)
 
-            y_opolint(counter) = 0;
+            y_polint(counter) = 0;
 
             % calculation of L
 
@@ -30,15 +32,15 @@ function [x_opolint, y_opolint] = polynomialInterpolation(x, y, stepsize)
 
                     if k ~= i
 
-                        L = L * ((x_opolint(counter) - x(k))/(x(i) - x(k)));
+                        L = L * ((x_polint(counter) - x(k))/(x(i) - x(k)));
 
                     end
 
                 end
 
-                % calculation of y_opolint
+                % calculation of y_polint
         
-                y_opolint(counter) = y_opolint(counter) + y(i) * L;
+                y_polint(counter) = y_polint(counter) + y(i) * L;
 
             end
 
@@ -50,4 +52,9 @@ function [x_opolint, y_opolint] = polynomialInterpolation(x, y, stepsize)
 
     end
 
+    % add last point directly from data set
+
+    x_polint(length(x_polint) + 1) = x(end);
+    y_polint(length(y_polint) + 1) = y(end);
+    
 end

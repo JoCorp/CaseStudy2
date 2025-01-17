@@ -56,10 +56,10 @@ ylabel('y')
 
 % testing with data set 1
 
-% setting specified limit + 1
+% setting specified limit
 
-xpol = x(1:1:22);
-ypol = y(1:1:22);
+xpol = x(1:1:21);
+ypol = y(1:1:21);
 
 [x_opolint, y_opolint] = polynomialInterpolation(xpol, ypol, stepsize1_2);
 
@@ -77,12 +77,10 @@ ylabel('y')
 
 %% Task 2.1.
 
-clear all
-
 % create test_data_set
 
 tt = [0 1 2 3 4 5];
-tx = [2]
+tx = [2];
 
 for i = 2:1:length(tt)
     
@@ -96,12 +94,11 @@ sprintf('X(t) = X_0 * e(μ*t) \n \nln(X(t)) = ln(X_0) + μt')
 
 % determine mu in test data set
 
-[mu, cx1] = mu_determination(tt,tx);
+[mu, cx0] = mu_determination(tt,tx);
 
 % calculate data with determined mu
 
-
-cx = [cx1];
+cx = [cx0];
 
 for i = 2:1:length(tt)
     
@@ -118,22 +115,6 @@ title('Growth rate determination')
 legend('test data', 'calculated data points')
 xlabel('time')
 ylabel('Bacterial population')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 %% import data_set_2
 
