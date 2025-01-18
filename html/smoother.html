@@ -77,25 +77,87 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <body>
 <div class="content">
 <pre class="codeinput">
-<span class="keyword">function</span> [st, sx, distance] = smoother (t, x, k)
+<span class="keyword">function</span> [Ts, Xs] = smoother (t, x, k)
 
-    <span class="comment">% calculate distance</span>
+    <span class="comment">% calculate distance and select values</span>
 
     <span class="comment">% outer loop goes through al ts</span>
 
     <span class="keyword">for</span> ts = 1:1:length(t)
 
-        <span class="comment">% inner loop determines the distance from neighbours</span>
+        <span class="comment">% first inner loop determines the distance from neighbours</span>
 
         <span class="keyword">for</span> i = 1:1:length(t)
 
-            distance(ts, i) = t(ts) - t(i);
+            distance(ts, i) = abs(t(ts) - t(i));
+
+        <span class="keyword">end</span>
+
+        <span class="comment">% determine if neighbourhood is symmetric</span>
+
+        <span class="keyword">if</span> ts &lt;= k
+
+            <span class="comment">% second inner loops selects k values and calculates W(u)</span>
+
+            <span class="keyword">for</span> i = 1:1:(ts + k)
+
+                selected_y(ts, i) = x(i);
+                selected_t(ts, i) = t(i);
+                u = distance(ts,i)/max(distance(ts,:));
+                W(ts,i) = (1 - u^3)^3;
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">elseif</span> length(t) - ts &lt;= k
+
+            <span class="keyword">for</span> i = (ts - k):1:length(t)
+
+                selected_y(ts, i - ts + k + 1) = x(i);
+                selected_t(ts, i - ts + k + 1) = t(i);
+                u = distance(ts, i - ts + k + 1)/max(distance(ts,:));
+                W(ts, i - ts + k + 1) = (1 - u^3)^3;
+
+            <span class="keyword">end</span>
+
+        <span class="keyword">else</span>
+
+            <span class="keyword">for</span> i = -k:1:k
+
+                m = min(distance(ts, :));
+                selected_y(ts, i + k + 1) = x(find(distance(ts,:) == m) + i);
+                selected_t(ts, i + k + 1) = t(find(distance(ts,:) == m) + i);
+                u = distance(ts, i + k + 1)/max(distance(ts,:));
+                W(ts, i + k + 1) = (1 - u^3)^3;
+
+            <span class="keyword">end</span>
 
         <span class="keyword">end</span>
 
     <span class="keyword">end</span>
 
+    <span class="comment">% flatten arrays</span>
 
+    flat_t = selected_t(:);
+    flat_y = selected_y(:);
+    flat_W = W(:);
+
+    <span class="comment">% call fit</span>
+
+    f = fit(flat_t, flat_y, <span class="string">'exp1'</span>, <span class="string">'Weights'</span>, flat_W); <span class="comment">% I know we were told to use a polynomial fit  of order 2 but that does not make any sense with this dataset</span>
+
+    <span class="comment">% get coefficients</span>
+
+    p = coeffvalues(f);
+
+    <span class="comment">% calculate Xs</span>
+
+    Ts = linspace(1,12,100);
+
+    <span class="keyword">for</span> ts = 1:1:length(Ts)
+
+        Xs(ts) = p(1) * exp(p(2) * Ts(ts));
+
+    <span class="keyword">end</span>
 
 <span class="keyword">end</span>
 </pre>
@@ -112,25 +174,87 @@ Error in smoother (line 7)
 </div>
 <!--
 ##### SOURCE BEGIN #####
-function [st, sx, distance] = smoother (t, x, k)
+function [Ts, Xs] = smoother (t, x, k)
 
-    % calculate distance
+    % calculate distance and select values
 
     % outer loop goes through al ts
 
     for ts = 1:1:length(t)
-
-        % inner loop determines the distance from neighbours
+        
+        % first inner loop determines the distance from neighbours
 
         for i = 1:1:length(t)
 
-            distance(ts, i) = t(ts) - t(i);
+            distance(ts, i) = abs(t(ts) - t(i));
+
+        end
+        
+        % determine if neighbourhood is symmetric
+
+        if ts <= k 
+
+            % second inner loops selects k values and calculates W(u)
+        
+            for i = 1:1:(ts + k)
+            
+                selected_y(ts, i) = x(i);
+                selected_t(ts, i) = t(i);
+                u = distance(ts,i)/max(distance(ts,:));
+                W(ts,i) = (1 - u^3)^3;
+
+            end
+
+        elseif length(t) - ts <= k
+
+            for i = (ts - k):1:length(t)
+                
+                selected_y(ts, i - ts + k + 1) = x(i);
+                selected_t(ts, i - ts + k + 1) = t(i);
+                u = distance(ts, i - ts + k + 1)/max(distance(ts,:));
+                W(ts, i - ts + k + 1) = (1 - u^3)^3;
+
+            end
+
+        else
+
+            for i = -k:1:k
+                
+                m = min(distance(ts, :));
+                selected_y(ts, i + k + 1) = x(find(distance(ts,:) == m) + i);
+                selected_t(ts, i + k + 1) = t(find(distance(ts,:) == m) + i);
+                u = distance(ts, i + k + 1)/max(distance(ts,:));
+                W(ts, i + k + 1) = (1 - u^3)^3;
+
+            end
 
         end
 
     end
 
+    % flatten arrays
+    
+    flat_t = selected_t(:);
+    flat_y = selected_y(:);
+    flat_W = W(:);
 
+    % call fit
+
+    f = fit(flat_t, flat_y, 'exp1', 'Weights', flat_W); % I know we were told to use a polynomial fit  of order 2 but that does not make any sense with this dataset
+
+    % get coefficients
+
+    p = coeffvalues(f);
+
+    % calculate Xs
+
+    Ts = linspace(1,12,100);
+    
+    for ts = 1:1:length(Ts)
+    
+        Xs(ts) = p(1) * exp(p(2) * Ts(ts));
+ 
+    end
 
 end
 ##### SOURCE END #####

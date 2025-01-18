@@ -249,8 +249,6 @@ ylabel('log(Bacterial population)')
 
 %% Task 3.1.
 
-load('data_set_2.mat');
-
 % study the influence of k
 
 for k = 1:1:4
@@ -263,7 +261,27 @@ figure(8)
 plot(time, bio_r, '.k', Ts(1,:), Xs(1,:), '-c', Ts(2,:), Xs(2,:), '-g', ...
     Ts(3,:), Xs(3,:), '-y', Ts(4,:), Xs(4,:), '-r')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
-title('Linearized data')
-legend('Segment 1', 'Segment 2', 'Segment 3')
+title('Smoothed data fit')
+legend('Original data set', 'k = 1', 'k = 2', 'k = 3', 'k = 4')
 xlabel('time')
-ylabel('log(Bacterial population)')
+ylabel('Bacterial population')
+
+%% Task 3.2.
+
+% calculate first derivative
+
+for k = 1:1:4
+    
+    fbar_y(k,:) = differentiator(Ts(k,:), Xs(k,:));
+
+end
+
+figure(9)
+plot(Ts(1,:), Xs(1,:), '-c', Ts(2,:), Xs(2,:), '-g', Ts(3,:), Xs(3,:), '-y', Ts(4,:), Xs(4,:), '-r', ...
+    Ts(1,:), fbar_y(1,:), '.c', Ts(2,:), fbar_y(2,:), '.g', Ts(3,:), fbar_y(3,:), '.y', Ts(4,:), fbar_y(4,:), '.r')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Numerical differentiation')
+legend('smoothed data fit, k = 1', 'smoothed data fit, k = 2', 'smoothed data fit, k = 3', 'smoothed data fit, k = 4', ...
+    'numeric differentiation, k = 1', 'numeric differentiation, k = 2', 'numeric differentiation, k = 3', 'numeric differentiation, k = 4')
+xlabel('time')
+ylabel('Bacterial population')
