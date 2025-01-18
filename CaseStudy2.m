@@ -153,32 +153,76 @@ pet3 = [et{3}(1) et{3}(end)];
 % calculate bacterial population with determined mu
 
 ecx1 = [ecx0_1];
+et1 = et{1};
 
-for i = 2:1:length(et{1})
+for i = 2:1:12
     
-    % Subtracting the start time ensures the model begins from the correct point.
+    if i < length(et1)
 
-    ecx1(i) = ecx0_1 * exp(emu1 * (et{1}(i) - et{1}(1)));
+        % Subtracting the start time ensures the model begins from the correct point.
 
+        ecx1(i) = ecx0_1 * exp(emu1 * (et1(i) - et1(1)));
+
+    else
+        
+        % values after exponential segment
+        
+        i = round(et1()) + 1;
+        et1(i) = i;
+        ecx1(i) = ecx0_1 * exp(emu1 * (et1(i) - et1(1)));
+
+    end
+       
 end
 
 ecx2 = [ecx0_2];
+et2 = et{2};
 
-for i = 2:1:length(et{2})
+for i = 2:1:12
+
+    if i < length(et2)
     
-    % Subtracting the start time ensures the model begins from the correct point.
+        % Subtracting the start time ensures the model begins from the correct point.
 
-    ecx2(i) = ecx0_2 * exp(emu2 * (et{2}(i) - et{2}(1)));
+        ecx2(i) = ecx0_2 * exp(emu2 * (et2(i) - et2(1)));
+
+    else
+        
+        % values after exponential segment
+
+        et2(i) = i;
+        ecx2(i) = ecx0_2 * exp(emu2 * (et2(i) - et2(1)));
+
+    end
 
 end
 
 ecx3 = [ecx0_3];
+et3 = et{3};
 
-for i = 2:1:length(et{3})
+for i = 2:1:12
 
-    % Subtracting the start time ensures the model begins from the correct point.
+    if i < length(et3)
+
+        % Subtracting the start time ensures the model begins from the correct point.
     
-    ecx3(i) = ecx0_3 * exp(emu3 * (et{3}(i) - et{3}(1)));
+        ecx3(i) = ecx0_3 * exp(emu3 * (et3(i) - et3(1)));
+    
+    else
+        
+        % values after exponential segment
+        
+        j = i + 4;
+        et3(i) = j;
+        ecx3(i) = ecx0_3 * exp(emu3 * (et3(i) - et3(1)));
+
+        if j == 12
+
+            break
+
+        end
+
+    end
 
 end
 
@@ -186,7 +230,7 @@ end
 
 figure(6)
 plot(time, bio_r, '.k', et{1}, ex{1}, '-g', et{2}, ex{2}, '-c', et{3}, ex{3}, '-b', ...
-    et{1}, ecx1, '--g', et{2}, ecx2, '--c',et{3}, ecx3, '--b')
+    et1, ecx1, '--g', et2, ecx2, '--c',et3, ecx3, '--b')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Bacterial growth')
 ylim([0 5])
@@ -197,6 +241,27 @@ ylabel('Bacterial population')
 
 figure(7)
 plot(pet1, peln_x1, '-g', pet2, peln_x2, '-c', pet3, peln_x3, '-b')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+title('Linearized data')
+legend('Segment 1', 'Segment 2', 'Segment 3')
+xlabel('time')
+ylabel('log(Bacterial population)')
+
+%% Task 3.1.
+
+load('data_set_2.mat');
+
+% study the influence of k
+
+for k = 1:1:4
+
+    [Ts(k,:), Xs(k,:)] = smoother(time, bio_r, k);
+
+end
+
+figure(8)
+plot(time, bio_r, '.k', Ts(1,:), Xs(1,:), '-c', Ts(2,:), Xs(2,:), '-g', ...
+    Ts(3,:), Xs(3,:), '-y', Ts(4,:), Xs(4,:), '-r')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Linearized data')
 legend('Segment 1', 'Segment 2', 'Segment 3')
