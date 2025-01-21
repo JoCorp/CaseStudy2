@@ -251,6 +251,8 @@ ylabel('log(Bacterial population)')
 
 % study the influence of k
 
+% make sure to install curve fitting toolbox
+
 for k = 1:1:4
 
     [Ts(k,:), Xs(k,:)] = smoother(time, bio_r, k);
