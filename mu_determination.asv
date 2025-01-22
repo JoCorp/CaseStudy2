@@ -1,12 +1,14 @@
-function mu = mu_determination(t,x)
+function [mu] = mu_determination(t,x)
 
-    % linearize bacterial growth
+    % linearize exponential data 
 
-    ln_x = log(x - x(1));
+    ln_x = log(x);
+    X_0 = x(1);
 
-    mu = (ln_x(end) - ln_x(1)) / (t(end) - t(1));
-
-    figure(5)
-    plot(t, ln_x)
+    % calculate μ from slope
+for i = 1:length(x)-1
+    for j = 1:length(t)
+    mu = (ln_x(i+1) - ln_x(i)) / t(i);
+    
 
 end

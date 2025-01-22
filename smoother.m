@@ -64,7 +64,7 @@ function [Ts, Xs] = smoother (t, x, k)
 
     % call fit
 
-    f = fit(flat_t, flat_y, 'exp1', 'Weights', flat_W); % I know we were told to use a polynomial fit  of order 2 but that does not make any sense with this dataset
+    f = fit(flat_t, flat_y, 'poly2', 'Weights', flat_W); % I know we were told to use a polynomial fit  of order 2 but that does not make any sense with this dataset
 
     % get coefficients
 

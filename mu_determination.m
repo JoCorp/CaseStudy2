@@ -1,15 +1,15 @@
-function [mu, X_0, ln_x] = mu_determination(t,x)
+function [mu] = mu_determination(t,x)
 
-    % linearize exponential data
+    % linearize exponential data 
 
     ln_x = log(x);
+    X_0 = x(1);
+  
 
     % calculate μ from slope
-
-    mu = (ln_x(end) - ln_x(1)) / (t(end) - t(1));
-
-    % get X_0 from original data set
-
-    X_0 = x(1);
-
+for i = 1:length(x)-1
+    for j = 1:length(t)
+    mu(i+1) = (ln_x(i+1) - ln_x(i)) / t(j);
+    end
+end
 end
