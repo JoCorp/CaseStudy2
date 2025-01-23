@@ -1,4 +1,11 @@
-function [fit_t, selected_tf] = smoother (t, x, k)
+function [Ts, smooth_y] = smooth_operator (t, x, alpha)
+
+    % calculate k based on alpha and n
+
+        % according to wikipedia k has to be rounded UP to the next largest
+        % integer
+
+        k = ceil(alpha*length(t));
 
     % calculate distance and select values
 
@@ -22,10 +29,10 @@ function [fit_t, selected_tf] = smoother (t, x, k)
         
             for i = 1:1:(ts + k)
             
-                selected_y(ts, i) = x(i);
-                selected_t(ts, i) = t(i);
+                selected_y(1,i) = x(i);
+                selected_t(1,i) = t(i);
                 u = distance(ts,i)/max(distance(ts,:));
-                W(ts,i) = (1 - u^3)^3;
+                W(i) = (1 - u^3)^3;
 
             end
 
@@ -33,10 +40,10 @@ function [fit_t, selected_tf] = smoother (t, x, k)
 
             for i = (ts - k):1:length(t)
                 
-                selected_y(ts, i - ts + k + 1) = x(i);
-                selected_t(ts, i - ts + k + 1) = t(i);
+                selected_y(i - ts + k + 1) = x(i);
+                selected_t(i - ts + k + 1) = t(i);
                 u = distance(ts, i - ts + k + 1)/max(distance(ts,:));
-                W(ts, i - ts + k + 1) = (1 - u^3)^3;
+                W(i - ts + k + 1) = (1 - u^3)^3;
 
             end
 
@@ -45,25 +52,22 @@ function [fit_t, selected_tf] = smoother (t, x, k)
             for i = -k:1:k
                 
                 m = min(distance(ts, :));
-                selected_y(ts, i + k + 1) = x(find(distance(ts,:) == m) + i);
-                selected_t(ts, i + k + 1) = t(find(distance(ts,:) == m) + i);
+                selected_y(i + k + 1) = x(find(distance(ts,:) == m) + i);
+                selected_t(i + k + 1) = t(find(distance(ts,:) == m) + i);
                 u = distance(ts, i + k + 1)/max(distance(ts,:));
-                W(ts, i + k + 1) = (1 - u^3)^3;
+                W(i + k + 1) = (1 - u^3)^3;
 
             end
 
         end
 
+        selected_y
+        
+        % third step is to calculate the smoothed point
+
+        f = fit(selected_t, selected_y, 'poly2', 'Weights', W);
+        smooth_y = f(t(ts));
+
     end
-
-    % flatten arrays
-    
-    flat_t = selected_t(:);
-    flat_y = selected_y(:);
-    flat_W = W(:);
-
-    % call fit
-
-    [fit_t, fit_y] = fit(flat_t, flat_y, 'poly2', 'Weights', flat_W)
 
 end

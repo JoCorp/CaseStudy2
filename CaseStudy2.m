@@ -85,6 +85,7 @@ ln_bio_r = log(bio_r);
 figure(4)
 subplot(2, 1, 1);
 plot(time,bio_r,'or','MarkerSize', 5)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Visualisation of the bacterial growth')
 xlabel('time')
 ylabel('Biomass')
@@ -93,6 +94,7 @@ xlim([0 13]);
 subplot(2, 1, 2);
 plot(time,ln_bio_r,'ob','MarkerSize', 5)
 title('Visualisation of the linearlised bacterial growth')
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 xlabel('time')
 ylabel('Logarithmic biomass')
 ylim([-1.5 1.5]);
@@ -120,6 +122,7 @@ average_mu = mean(growth_rate);
 
 figure(5)
 plot(time_mu, growth_rate, '-b', 'MarkerSize', 10)
+set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(average_mu, '-r')
 title('Growth rate determination')
@@ -131,18 +134,19 @@ xlim([3.75 10]);
 
 %% Task 3.1.
 
-% % study the influence of k
-% load('data_set_2.mat');
-% a= 0:0.01:1;
-% k = a*length(time);
-% nachbarn = abs(ts-time);
-% nachbarn_max = max(nachbarn);
-% ind = 1:1:k;
-% neighbours_k = [ind, nachbarn(1:k)];
-% 
-% u = nachbarn/nachbarn_max;
-% w = @u (1- u^3)^3;
-% fit(time,bio_r, poly2, 'Weights', w )
+% show influence of alpha
+load('data_set_2.mat');
+alpha= 0:0.01:1;
+
+k = alpha*length(time);
+nachbarn = abs(ts-time);
+nachbarn_max = max(nachbarn);
+ind = 1:1:k;
+neighbours_k = [ind, nachbarn(1:k)];
+
+u = nachbarn/nachbarn_max;
+w = @u (1- u^3)^3;
+fit(time,bio_r, poly2, 'Weights', w )
 
 
 
