@@ -195,3 +195,13 @@
 % legend('Original data set', 'k = 1', 'k = 2', 'k = 3', 'k = 4')
 % xlabel('time')
 % ylabel('Bacterial population')
+
+% k = alpha*length(time);
+% nachbarn = abs(ts-time);
+% nachbarn_max = max(nachbarn);
+% ind = 1:1:k;
+% neighbours_k = [ind, nachbarn(1:k)];
+% 
+% u = nachbarn/nachbarn_max;
+% w = @u (1- u^3)^3;
+% fit(time,bio_r, poly2, 'Weights', w )

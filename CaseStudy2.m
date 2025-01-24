@@ -133,9 +133,11 @@ xlim([3.75 10]);
 
 load('data_set_2.mat');
 
+
 % still need to work on the for loop
 % figure(6)
 % title('Visualisation of the bacterial growth')
+
 % xlabel('time')
 % ylabel('Biomass')
 % ylim([0 3]);
@@ -147,6 +149,7 @@ load('data_set_2.mat');
 % plot(time,bio_r,t_s(a), y_smooth(a), '-r' ) 
 % end
 % hold off
+
 % single alpha value
 figure(6);
 title('Visualisation of the Bacterial Growth');
