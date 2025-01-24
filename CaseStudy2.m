@@ -168,6 +168,32 @@ plot(t_s, y_smooth, '-b', 'LineWidth', 1.5, 'DisplayName', sprintf('Smoothed Dat
 legend('show');
 hold off;
 
+% BASICALLY THE MU PLOT FROM TASK 2.2
+% a = 0.25;
+% a = 0.33;
+a = 0.50;
+% a = 0.75;
+[time_mu_smooth, bio_r_mu_smooth] = smooth_operator(time_mu, bio_r_mu, a);
+% plot(time_mu_smooth, bio_r_mu_smooth, '-b', 'LineWidth', 1.5, 'DisplayName', sprintf('Smoothed Data (a=%.2f)', a));
+% legend('show');
+
+[mu_smooth] = mu_determination(time_mu_smooth,bio_r_mu_smooth);
+growth_rate_smooth = mu_smooth';
+average_mu_smooth = mean(growth_rate_smooth);
+
+figure(7)
+hold on
+plot(time_mu, growth_rate, 'MarkerSize', 10)
+yline(average_mu)
+plot(time_mu_smooth, growth_rate_smooth, 'MarkerSize', 10)
+yline(average_mu_smooth)
+title('Growth rate determination')
+legend('Growth rate', 'Average growth rate', ' Smoothed Growth rate', 'Smoothed average growth rate');
+xlabel('time')
+ylabel('Bacterial population')
+xlim([3.75 10]);
+hold off
+
 
 %% Task 3.2.
 
