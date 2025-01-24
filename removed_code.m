@@ -177,3 +177,21 @@
 % legend('Segment 1', 'Segment 2', 'Segment 3')
 % xlabel('time')
 % ylabel('log(Bacterial population)')
+
+
+% % make sure to install curve fitting toolbox
+% 
+% for k = 1:1:4
+% 
+%     [Ts(k,:), Xs(k,:)] = smoother(time, bio_r, k);
+% 
+% end
+% 
+% figure(8)
+% plot(time, bio_r, '.k', Ts(1,:), Xs(1,:), '-c', Ts(2,:), Xs(2,:), '-g', ...
+%     Ts(3,:), Xs(3,:), '-y', Ts(4,:), Xs(4,:), '-r')
+% set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+% title('Smoothed data fit')
+% legend('Original data set', 'k = 1', 'k = 2', 'k = 3', 'k = 4')
+% xlabel('time')
+% ylabel('Bacterial population')
