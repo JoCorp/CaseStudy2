@@ -131,10 +131,66 @@ xlim([3.75 10]);
 
 %% Task 3.1.
 
+<<<<<<< Updated upstream
 % % study the influence of k
 % load('data_set_2.mat');
 % a= 0:0.01:1;
 % k = a*length(time);
+=======
+% show influence of alpha
+load('data_set_2.mat');
+
+% 
+% figure(6)
+% title('Visualisation of the bacterial growth')
+% xlabel('time')
+% ylabel('Biomass')
+% ylim([0 3]);
+% xlim([0 13]);
+% plot(time,bio_r,'or','MarkerSize', 5 )
+%     hold on
+% for a = 0:0.05:1;
+%     [t_s(a), y_smooth(a)]= smooth_operator(time, bio_r,a);
+% plot(time,bio_r,t_s(a), y_smooth(a), '-r' )
+% % set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
+% 
+% end
+% hold off
+% Initialize the figure
+figure(6);
+title('Visualisation of the bacterial growth');
+xlabel('time');
+ylabel('Biomass');
+ylim([0 3]);
+xlim([0 13]);
+
+% Plot the original data once
+plot(time, bio_r, 'or', 'MarkerSize', 5, 'DisplayName', 'Original Data');
+hold on;
+
+% Loop over smoothing parameter values
+a_values = 0:0.05:1; % Define the range of smoothing parameters
+for i = 1:length(a_values)
+    a = a_values(i); % Get the current value of 'a'
+    
+    % Call the smoothing function
+    [t_s, y_smooth] = smooth_operator(time, bio_r, a);
+    
+    % Plot the smoothed data
+    plot(t_s, y_smooth, 'DisplayName', sprintf('Smoothed Data (a=%.2f)', a));
+end
+
+% Optional: Set background color if in dark mode
+% set(gca, 'color', 'w');
+
+% Add a legend
+legend('show');
+
+hold off;
+
+
+% k = alpha*length(time);
+>>>>>>> Stashed changes
 % nachbarn = abs(ts-time);
 % nachbarn_max = max(nachbarn);
 % ind = 1:1:k;
