@@ -9,7 +9,7 @@ function [fbar_y] = differentiator(t, y)
     for i = 2:1:(length(t) - 1)
 
         fbar_y(i) = (y(i+1) - y(i-1))/(t(i+1)-t(i-1));
-
+        
     end
 
      % calculate one-sided-difference at ending point

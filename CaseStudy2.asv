@@ -181,11 +181,10 @@ hold off
 %% Task 3.2.
 
 diff_noisy = differentiator(time, bio_r);
-mu_noisy = diff_noisy./bio_r';
-diff_smooth_numeric = differentiator(t_s, y_smooth);
-mu_smooth_numeric = diff_smooth_numeric./y_smooth;
+mu_noisy = diff_noisy./bio_r;
+% mu_smooth_numeric = differentiator(t_s, y_smooth);
 avg_mu_noisy = mean(mu_noisy);
-avg_mu_smooth_numeric = mean(mu_smooth_numeric);
+% avg_mu_smooth_numeric = mean(mu_smooth_numeric);
 
 figure(8)
 plot(time, mu_noisy, time, mu_smooth_numeric)
