@@ -81,6 +81,8 @@ load('data_set_2.mat');
 
 % plot the results
 ln_bio_r = log(bio_r);
+f_ln = fit(time, ln_bio_r, 'poly1');
+ln_bio_r_fitted = f_ln(time);
 
 figure(4)
 subplot(2, 1, 1);
@@ -92,11 +94,14 @@ ylim([0 3]);
 xlim([0 13]);
 subplot(2, 1, 2);
 plot(time,ln_bio_r,'ob','MarkerSize', 5)
+hold on
+plot(time, ln_bio_r_fitted, '-r', 'LineWidth', 1.5)
 title('Visualisation of the linearlised bacterial growth')
 xlabel('time')
 ylabel('Logarithmic biomass')
 ylim([-1.5 1.5]);
 xlim([0 13]);
+
 
 
 
@@ -116,7 +121,9 @@ bio_r_mu = bio_r(ti:tf,:);
 
 [mu] = mu_determination(time_mu,bio_r_mu);
 growth_rate = mu';
-average_mu = mean(growth_rate);
+average_mu = mean(abs(growth_rate)); 
+% average_mu = mean(growth_rate); 
+% i added abs as direction od growth rate should not matter without it the smpoth and noisy data show same avg
 
 figure(5)
 plot(time_mu, growth_rate, '-b', 'MarkerSize', 10)
@@ -162,7 +169,7 @@ a = 0.50;
 
 [mu_smooth] = mu_determination(time_mu_smooth,bio_r_mu_smooth);
 growth_rate_smooth = mu_smooth';
-average_mu_smooth = mean(growth_rate_smooth);
+average_mu_smooth = mean(abs(growth_rate_smooth));
 
 figure(7)
 hold on
@@ -193,3 +200,4 @@ title('Numerical differentiation')
 legend('noisy data','smoothed data')
 xlabel('time')
 ylabel('Bacterial population')
+xlim([3 10]);
