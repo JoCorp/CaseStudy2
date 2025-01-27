@@ -81,6 +81,8 @@ load('data_set_2.mat');
 
 % plot the results
 ln_bio_r = log(bio_r);
+f_ln = fit(time, ln_bio_r, 'poly1');
+ln_bio_r_fitted = f_ln(time);
 
 figure(4)
 subplot(2, 1, 1);
@@ -92,10 +94,12 @@ ylim([0 3]);
 xlim([0 13]);
 subplot(2, 1, 2);
 plot(time,ln_bio_r,'ob','MarkerSize', 5)
+hold on 
+plot(time, ln_bio_r_fitted, '-r', 'LineWidth', 0.5)
 title('Visualisation of the linearlised bacterial growth')
 xlabel('time')
 ylabel('Logarithmic biomass')
-ylim([-1.5 1.5]);
+ylim([-2.5 1.5]);
 xlim([0 13]);
 
 
@@ -159,8 +163,10 @@ plot(time_mu, growth_rate, '-k', Ts{1}, smoothed_mu{1}, '-r')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(average_smu(1), '-m')
+hold on
+yline(average_mu, '-k')
 title('α = 0.25')
-legend('original data', 'smoothed data with α = 0.25', 'Average growth rate of smoothed data');
+legend('original data', 'smoothed data with α = 0.25', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -169,8 +175,10 @@ plot(time_mu, growth_rate, '-k', Ts{2}, smoothed_mu{2}, '-g')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(average_smu(2), '-m')
+hold on
+yline(average_mu, '-k')
 title('α = 0.50')
-legend('original data', 'smoothed data with α = 0.50', 'Average growth rate of smoothed data');
+legend('original data', 'smoothed data with α = 0.50', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data','Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -179,8 +187,10 @@ plot(time_mu, growth_rate, '-k', Ts{3}, smoothed_mu{3}, '-c')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(average_smu(3), '-m')
+hold on
+yline(average_mu, '-k')
 title('α = 0.75')
-legend('original data', 'smoothed data with α = 0.75', 'Average growth rate of smoothed data');
+legend('original data', 'smoothed data with α = 0.75','Average growth rate of smoothed data','Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -189,8 +199,10 @@ plot(time_mu, growth_rate, '-k', Ts{4}, smoothed_mu{4}, '-b')
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(average_smu(4), '-m')
+hold on
+yline(average_mu, '-k')
 title('α = 1.00')
-legend('original data', 'smoothed data with α = 1.00', 'Average growth rate of smoothed data');
+legend('original data', 'smoothed data with α = 1.00', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
