@@ -121,7 +121,7 @@ bio_r_mu = bio_r(ti:tf,:);
 
 [mu] = mu_determination(time_mu,bio_r_mu);
 growth_rate = mu';
-average_mu = mean(abs(growth_rate)); 
+average_mu = mean(growth_rate); 
 % average_mu = mean(growth_rate); 
 % i added abs as direction od growth rate should not matter without it the smpoth and noisy data show same avg
 
@@ -169,7 +169,7 @@ a = 0.50;
 
 [mu_smooth] = mu_determination(time_mu_smooth,bio_r_mu_smooth);
 growth_rate_smooth = mu_smooth';
-average_mu_smooth = mean(abs(growth_rate_smooth));
+average_mu_smooth = mean(growth_rate_smooth);
 
 figure(7)
 hold on
