@@ -109,6 +109,7 @@ xlim([0 13]);
 % import data_set_2
 
 load('data_set_2.mat');
+
 % select index of time for exponential
 ti = find(time == 3.75);
 tf = find(time == 10);
@@ -166,7 +167,7 @@ yline(average_smu(1), '-m')
 hold on
 yline(average_mu, '-k')
 title('α = 0.25')
-legend('original data', 'smoothed data with α = 0.25', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
+legend('growth rate of original data', 'growth rate of smoothed data with α = 0.25', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -178,7 +179,7 @@ yline(average_smu(2), '-m')
 hold on
 yline(average_mu, '-k')
 title('α = 0.50')
-legend('original data', 'smoothed data with α = 0.50', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data','Location', 'south');
+legend('growth rate of original data', 'growth rate of smoothed data with α = 0.50', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data','Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -190,7 +191,7 @@ yline(average_smu(3), '-m')
 hold on
 yline(average_mu, '-k')
 title('α = 0.75')
-legend('original data', 'smoothed data with α = 0.75','Average growth rate of smoothed data','Average growth rate of the noisy data', 'Location', 'south');
+legend('growth rate of original data', 'growth rate of smoothed data with α = 0.75','Average growth rate of smoothed data','Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -202,7 +203,7 @@ yline(average_smu(4), '-m')
 hold on
 yline(average_mu, '-k')
 title('α = 1.00')
-legend('original data', 'smoothed data with α = 1.00', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
+legend('growth rate of original data', 'growth rate of smoothed data with α = 1.00', 'Average growth rate of smoothed data', 'Average growth rate of the noisy data', 'Location', 'south');
 xlabel('time')
 ylabel('Growth rate')
 xlim([3.75 10]);
@@ -229,7 +230,7 @@ set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(avg_mu_smooth_n{1}, '-m')
 title('α = 0.25')
-legend('noisy data','smoothed data', 'average growth rate')
+legend('growth rate of original data','growth rate of smoothed data', 'average growth rate')
 xlabel('time')
 ylabel('Growth rate')
 subplot(2,2,2)
@@ -238,7 +239,7 @@ set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(avg_mu_smooth_n{2}, '-m')
 title('α = 0.50')
-legend('noisy data','smoothed data', 'average growth rate')
+legend('growth rate of original data','growth rate of smoothed data', 'average growth rate')
 xlabel('time')
 ylabel('Growth rate')
 subplot(2,2,3)
@@ -247,7 +248,7 @@ set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(avg_mu_smooth_n{3}, '-m')
 title('α = 0.75')
-legend('noisy data','smoothed data', 'average growth rate')
+legend('growth rate of original data','growth rate of smoothed data', 'average growth rate')
 xlabel('time')
 ylabel('Growth rate')
 subplot(2,2,4)
@@ -256,6 +257,6 @@ set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 hold on 
 yline(avg_mu_smooth_n{4}, '-m')
 title('α = 1.00')
-legend('noisy data','smoothed data', 'average growth rate')
+legend('growth rate of original data','growth rate of smoothed data', 'average growth rate')
 xlabel('time')
 ylabel('Growth rate')
