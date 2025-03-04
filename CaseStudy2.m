@@ -58,8 +58,8 @@ ylabel('y')
 
 % setting specified limit
 
-xpol = x(1:1:21);
-ypol = y(1:1:21);
+xpol = x(1:1:41);
+ypol = y(1:1:41);
 
 [x_opolint, y_opolint] = polynomialInterpolation(xpol, ypol, stepsize1_2);
 
@@ -70,7 +70,7 @@ plot(x_opolint, y_opolint, '--b', xpol, ypol, '.r', 'MarkerSize', 10)
 set(gca, 'color', 'w') % this is only necessary if you're using the dark mode...
 title('Polynomial interpolation')
 legend('Lagrange polynomial', 'data set 1')
-xlim([-2 0])
+xlim([-2 2])
 ylim([-15 15])
 xlabel('x')
 ylabel('y')
